@@ -11,6 +11,8 @@ import {TableRow} from "@tiptap/extension-table-row";
 import {Image} from "@tiptap/extension-image";
 import ImageResize from "tiptap-extension-resize-image";
 import {useEditorStore} from "@/store/use-editor-store";
+import {Underline} from "@tiptap/extension-underline";
+import {FontFamily} from "@tiptap/extension-font-family";
 
 const Editor = () => {
     const {setEditor} = useEditorStore();
@@ -48,6 +50,7 @@ const Editor = () => {
             }
         },
         extensions: [
+            FontFamily,
             StarterKit,
             TaskList,
             TaskItem.configure({
@@ -60,7 +63,8 @@ const Editor = () => {
             TableHeader,
             TableRow,
             Image,
-            ImageResize
+            ImageResize,
+            Underline
         ],
         content: '<p>Hello World! 🌎️</p>',
     })
