@@ -1,7 +1,9 @@
 "use client";
 
-import {LucideIcon, Undo2Icon} from "lucide-react";
+import {BoldIcon, LucideIcon, PrinterIcon, Redo2Icon, SpellCheckIcon, Undo2Icon} from "lucide-react";
 import {cn} from "@/lib/utils";
+import {useEditorStore} from "@/store/use-editor-store";
+import {Separator} from "@/components/ui/separator";
 
 const ToolbarButton = (props: {
     onClick?: () => void;
@@ -19,6 +21,7 @@ const ToolbarButton = (props: {
 }
 
 const Toolbar = () => {
+    const {editor} = useEditorStore();
     const sections: {
         label: string,
         icon: LucideIcon,
@@ -29,7 +32,32 @@ const Toolbar = () => {
           {
               label: "Undo",
               icon: Undo2Icon,
-              onClick: () => console.log("Undo clicked"),
+              onClick: () => editor?.chain().focus().undo().run(),
+          },
+          {
+              label: "Redo",
+              icon: Redo2Icon,
+              onClick: () => editor?.chain().focus().redo().run(),
+          },
+          {
+              label: "Print",
+              icon: PrinterIcon,
+              onClick: () => window.print(),
+          },
+          {
+              label: "Spell Check",
+              icon: SpellCheckIcon,
+              onClick: () => {
+                  const current = editor?.view.dom.getAttribute("spellcheck");
+                  editor?.view.dom.setAttribute("spellcheck", current === "false" ? "true" : "false");
+              }
+          }
+      ],
+      [
+          {
+              label: "Bold",
+              icon: BoldIcon,
+                onClick: () => editor?.chain().focus().toggleBold().run(),
           }
       ]
     ];
@@ -38,6 +66,13 @@ const Toolbar = () => {
             Toolbar {sections[0].map((item) => (
             <ToolbarButton key={item.label} {...item}></ToolbarButton>
         ))}
+            <Separator orientation={"vertical"} className={"h-6"} />
+            {/* TODO: Font Family */}
+            <Separator orientation={"vertical"} className={"h-6 bg-neutral-500"} />
+            {/* TODO: Heading */}
+            <Separator orientation={"vertical"} className={"h-6 bg-neutral-500"} />
+            {/* TODO: Font Size */}
+            <Separator orientation={"vertical"} className={"h-6 bg-neutral-500"} />
         </div>
     );
 }

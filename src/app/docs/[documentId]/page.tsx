@@ -5,7 +5,7 @@ async function DocsPage({params}: {params: Promise<{documentId: string}>}) {
     const {documentId} = await params;
     return (
         <div className={"min-h-screen bg-[#FAFBFD]"}>
-            <Toolbar></Toolbar>
+            <Toolbar />
             <Editor />
         </div>
     );
